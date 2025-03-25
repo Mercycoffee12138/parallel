@@ -133,27 +133,24 @@ double sixteen_way_sum(const vector<double>& nums) {
     return result;
 }
 
-// 优化的递归分治实现
-double recursive_sum_optimized(const vector<double>& nums, size_t start, size_t end) {
-    // 对小规模问题使用直接计算
-    if (end - start <= 8) {
-        double sum = 0.0;
-        for (size_t i = start; i < end; i++) {
-            sum += nums[i];
-        }
-        return sum;
+// 保留原递归实现作为比较
+double recursive_sum(const vector<double>& nums, size_t start, size_t end) {
+    if (end - start <= 1) {
+        return nums[start];
+    }
+    else if (end - start == 2) {
+        return nums[start] + nums[start + 1];
     }
     else {
         size_t mid = start + (end - start) / 2;
-        return recursive_sum_optimized(nums, start, mid) + 
-               recursive_sum_optimized(nums, mid, end);
+        return recursive_sum(nums, start, mid) + recursive_sum(nums, mid, end);
     }
 }
 
-// 优化的递归求和包装函数
-double divide_conquer_sum_optimized(const vector<double>& nums) {
+// 递归求和的包装函数
+double divide_conquer_sum(const vector<double>& nums) {
     if (nums.empty()) return 0.0;
-    return recursive_sum_optimized(nums, 0, nums.size());
+    return recursive_sum(nums, 0, nums.size());
 }
 
 // 测量函数运行时间
